@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../mixins/validation_mixin.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -7,7 +8,7 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> with ValidationMixin {
   final formKey = GlobalKey<FormState>();
   var email = '';
   var password = '';
@@ -45,17 +46,7 @@ class _LoginPageState extends State<LoginPage> {
         labelText: 'Email Address',
         hintText: 'you@example.com',
       ),
-      validator: (value) {
-        // return null if valid
-        // return string error message if not valid
-        if (value != null) {
-          if (value.isEmpty) {
-            return 'Please enter a your email address';
-          } else if (value.isNotEmpty && !value.contains('@')) {
-            return 'Please enter a valid email';
-          }
-        }
-      },
+      validator: validateEmail,
       onSaved: (newValue) {
         // setState(() {
         //   email = newValue!;
@@ -72,13 +63,7 @@ class _LoginPageState extends State<LoginPage> {
         labelText: 'Password',
         hintText: 'Enter Password',
       ),
-      validator: (value) {
-        // return null if valid
-        // return string error message if not valid
-        if (value != null && value.length < 4) {
-          return 'Password must be at least 4 characters';
-        }
-      },
+      validator: validatePassword,
       onSaved: (newValue) {
         // setState(() {
         //   password = newValue!;
