@@ -43,7 +43,14 @@ class _LoginPageState extends State<LoginPage> {
       ),
       validator: (value) {
         // return null if valid
-        // return error message if not valid
+        // return string error message if not valid
+        if(value != null) {
+          if(value.isEmpty) {
+            return 'Please enter a your email address';
+          } else if (value.isNotEmpty && !value.contains('@')) {
+            return 'Please enter a valid email';
+          }
+        }
       },
     );
   }
@@ -57,7 +64,10 @@ class _LoginPageState extends State<LoginPage> {
       ),
       validator: (value) {
         // return null if valid
-        // return error message if not valid
+        // return string error message if not valid
+        if (value != null && value.length < 4) {
+          return 'Password must be at least 4 characters';
+        } 
       },
     );
   }
@@ -65,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget submitButton() {
     return ElevatedButton(
       onPressed: () {
-        formKey.currentState?.reset();
+        formKey.currentState?.validate();
       },
       child: Text('Submit'),
       style: ElevatedButton.styleFrom(
