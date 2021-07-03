@@ -9,6 +9,9 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
+  var email = '';
+  var password = '';
+  var message = '';
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +27,9 @@ class _LoginPageState extends State<LoginPage> {
                 passwordField(),
                 SizedBox(height: 25.0),
                 submitButton(),
+                SizedBox(height: 25.0),
+                // Text('Email : $email\nPassword : $password'),
+                Text('$message'),
               ],
             ),
           ),
@@ -42,13 +48,19 @@ class _LoginPageState extends State<LoginPage> {
       validator: (value) {
         // return null if valid
         // return string error message if not valid
-        if(value != null) {
-          if(value.isEmpty) {
+        if (value != null) {
+          if (value.isEmpty) {
             return 'Please enter a your email address';
           } else if (value.isNotEmpty && !value.contains('@')) {
             return 'Please enter a valid email';
           }
         }
+      },
+      onSaved: (newValue) {
+        // setState(() {
+        //   email = newValue!;
+        // });
+        email = newValue!;
       },
     );
   }
@@ -65,7 +77,13 @@ class _LoginPageState extends State<LoginPage> {
         // return string error message if not valid
         if (value != null && value.length < 4) {
           return 'Password must be at least 4 characters';
-        } 
+        }
+      },
+      onSaved: (newValue) {
+        // setState(() {
+        //   password = newValue!;
+        // });
+        password = newValue!;
       },
     );
   }
@@ -73,7 +91,13 @@ class _LoginPageState extends State<LoginPage> {
   Widget submitButton() {
     return ElevatedButton(
       onPressed: () {
-        formKey.currentState?.validate();
+        if (formKey.currentState!.validate()) {
+          formKey.currentState!.save();
+
+          setState(() {
+            message = 'Time to post $email and $password to my API';
+          });
+        }
       },
       child: Text('Submit'),
       style: ElevatedButton.styleFrom(
