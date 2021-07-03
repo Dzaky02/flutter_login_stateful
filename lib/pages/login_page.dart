@@ -10,6 +10,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Container(
           margin: EdgeInsets.all(20.0),
           child: Form(
+            key: formKey,
             child: Column(
               children: [
                 emailField(),
@@ -38,6 +41,10 @@ class _LoginPageState extends State<LoginPage> {
         labelText: 'Email Address',
         hintText: 'you@example.com',
       ),
+      validator: (value) {
+        // return null if valid
+        // return error message if not valid
+      },
     );
   }
 
@@ -48,12 +55,18 @@ class _LoginPageState extends State<LoginPage> {
         labelText: 'Password',
         hintText: 'Enter Password',
       ),
+      validator: (value) {
+        // return null if valid
+        // return error message if not valid
+      },
     );
   }
 
   Widget submitButton() {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        formKey.currentState?.reset();
+      },
       child: Text('Submit'),
       style: ElevatedButton.styleFrom(
         primary: Colors.teal,
